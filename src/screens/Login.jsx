@@ -1,32 +1,33 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, { useContext } from 'react';
-import { MyContext } from '../context/MyContext';
+import React, {useContext} from 'react';
+import {MyContext} from '../context/MyContext';
+// import {MyContext} from '../../App';
 
 const Login = ({navigation, route}) => {
-//   const {email, password} = route.params;
-const { userData } = useContext(MyContext);
-console.log(userData,'userdata...........')
   const onLogin = () => {
     navigation.navigate('Register');
   };
+  //   const {user} = useContext(MyContext);
+
   return (
-    
-    <View style={styles.container}>
-     <Text>Email: {userData?.email}</Text>
-      <Text>Password: {userData?.password}</Text>
-      <View style={styles.loginBtn}>
-      <TouchableOpacity onPress={onLogin}>
-        <Text style={styles.textStyle}>Register</Text>
-      </TouchableOpacity>
-    </View>
-    </View>
+    <MyContext.Consumer>
+      {value => (
+        <>
+          <Text style={{fontSize: 24, backgroundColor: 'green', color: '#FFF'}}>
+            {value.user}
+          </Text>
+          <Text style={{fontSize: 24, backgroundColor: 'green', color: '#FFF'}}>
+            {value.password}
+          </Text>
+        </>
+      )}
+    </MyContext.Consumer>
   );
 };
 
 export default Login;
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     alignSelf: 'center',
-    
+
     backgroundColor: 'black',
     padding: '4%',
     width: '50%',
@@ -43,10 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textStyle: {
-    
     alignSelf: 'center',
     color: 'white',
-
-  
   },
 });

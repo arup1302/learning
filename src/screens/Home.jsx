@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,115 +7,77 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { MyContext } from '../context/MyContext';
-
+import {MyContext} from '../context/MyContext';
+// import { MyContext } from '../context/MyContext';
 
 const Home = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  
-  const { setUserData } = useContext(MyContext);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-//   const validateEmail = () => {
-//     // Basic email validation
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     setEmailError(emailRegex.test(email) ? '' : 'Invalid email address');
-//     // setEmailError(email.length >= 9 ? '' : 'Invalid email address');
-//     return emailError;
-//   };
 
-//   const validatePassword = () => {
-//     // Password must be at least 6 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character
-//     const passRegex =
-//       /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>0-9])(?=.*[0-9]).{8,}$/;
-
-//     setPasswordError(
-//       passRegex.test(password)
-//         ? ''
-//         : 'Password must be at least 6 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character',
-//     );
-//   };
   const onLinkClick = () => {
-console.log(email,'emias')
-    // const userData = { email, password }; //
-    setUserData( {email, password });
     navigation.navigate('Login');
-
-    // validateEmail();
-    // validatePassword();
-    // if (!emailError && !passwordError) {
-    //   navigation.navigate('Login', {email, password});
-    //   setEmail('');
-    //   setPassword('');
-    //   setEmailError('');
-    //   setPasswordError('');
-    // }
   };
+  // const {setUser} = useContext(MyContext);
 
   return (
+    <MyContext.Consumer>
+      {cons => (
+        <View style={styles.container}>
+          <View>
+            <Text style={styles.label}>Email:</Text>
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={val => {
+                  setEmail(val.toLowerCase());
+                  cons.setUser(val);
+                }}
+                // onBlur={validateEmail}
+                value={email}
+              />
+            </View>
+          </View>
 
+          <View>
+            <Text style={styles.label}>Password:</Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Password"
+                secureTextEntry={!isPasswordVisible}
+                onChangeText={val => {
+                  setPassword(val);
+                  cons.setPassword(val);
+                }}
+                value={password}
+              />
 
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                style={styles.eyeIcon}>
+                <Icon
+                  name={isPasswordVisible ? 'eye' : 'eye-slash'}
+                  size={20}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
 
-    <View style={styles.container}>
-      <View >
-        <Text style={styles.label}>Email:</Text>
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={val => {
-              setEmail(val.toLowerCase());
-              setEmailError('');
-            }}
-            // onBlur={validateEmail}
-            value={email}
-          />
+          <View style={styles.loginBtn}>
+            <TouchableOpacity onPress={onLinkClick}>
+              <Text style={styles.textStyle}>Login</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      {/* {emailError ? (<Text style={styles.errorText}>{emailError}</Text> ): null} */}
-      <View >
-        <Text style={styles.label}>Password:</Text>
-        <View style={styles.passwordInputContainer}>
-          <TextInput
-            style={styles.passwordInput}
-            placeholder="Password"
-            secureTextEntry={!isPasswordVisible}
-            onChangeText={val => {
-              setPassword(val);
-              setPasswordError('');
-            }}
-            // onBlur={validatePassword}
-            value={password}
-          />
-
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={styles.eyeIcon}>
-            <Icon
-              name={isPasswordVisible ? 'eye' : 'eye-slash'}
-              size={20}
-              color="black"
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* {passwordError ? (
-        <Text style={styles.errorText}>{passwordError}</Text>
-      ) : null} */}
-      <View style={styles.loginBtn}>
-        <TouchableOpacity onPress={onLinkClick}>
-          <Text style={styles.textStyle}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-
+      )}
+    </MyContext.Consumer>
   );
 };
 
@@ -127,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingHorizontal: '3%',
     backgroundColor: 'yellow',
-    justifyContent:"center",
+    justifyContent: 'center',
   },
   input: {
     height: 55,
@@ -168,7 +130,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   errorText: {
-    marginTop: "1%",
+    marginTop: '1%',
     color: 'red',
     marginHorizontal: '3%',
   },

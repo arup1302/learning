@@ -1,14 +1,16 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import AppNavigator from './src/auth/AppNavigator';
-import {UserProvider} from './src/context/MyContext';
+import {MyContext} from './src/context/MyContext';
 
 const App = () => {
+  const [user, setUser] = useState(null);
+  const [password, setPassword] = useState(null);
   return (
     <SafeAreaView style={{flex: 1}}>
-      <UserProvider>
+      <MyContext.Provider value={{user, setUser, password, setPassword}}>
         <AppNavigator />
-      </UserProvider>
+      </MyContext.Provider>
     </SafeAreaView>
   );
 };
