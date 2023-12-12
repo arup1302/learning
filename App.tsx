@@ -2,7 +2,7 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import AppNavigator from './src/auth/AppNavigator';
 import {MyContext} from './src/context/MyContext';
-
+//this is aman 1
 const App = () => {
   const [user, setUser] = useState(null);
   const [password, setPassword] = useState(null);
