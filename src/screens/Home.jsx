@@ -1,142 +1,88 @@
-import React, {createContext, useContext, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {MyContext} from '../context/MyContext';
-// import { MyContext } from '../context/MyContext';
+// screens/Home.js
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {increment, decrement, reset} from '../redux/actions/countAction';
 
-const Home = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+export default function Home() {
+  // const [counter, setCounter] = useState(0);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+  // const handleIncreament = () => {
+  //   setCounter(counter + 1);
+  // };
+
+  // const handleDecreament = () => {
+  //   if (counter > 0) setCounter(counter - 1);
+  // };
+  // const handleReset = () => {
+  //   setCounter(0);
+  // };
+  const dispatch = useDispatch();
+
+  const countValue = useSelector(store => store.counterReducer.count);
+
+  const handleIncreament = () => {
+    dispatch(increment());
   };
 
-  const onLinkClick = () => {
-    navigation.navigate('Login');
+  const handleDecreament = () => {
+    dispatch(decrement());
   };
-  // const {setUser} = useContext(MyContext);
+  const handleReset = () => {
+    dispatch(reset());
+  };
 
   return (
-    <MyContext.Consumer>
-      {cons => (
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.label}>Email:</Text>
-            <View>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={val => {
-                  setEmail(val.toLowerCase());
-                  cons.setUser(val);
-                }}
-                // onBlur={validateEmail}
-                value={email}
-              />
-            </View>
-          </View>
-
-          <View>
-            <Text style={styles.label}>Password:</Text>
-            <View style={styles.passwordInputContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                placeholder="Password"
-                secureTextEntry={!isPasswordVisible}
-                onChangeText={val => {
-                  setPassword(val);
-                  cons.setPassword(val);
-                }}
-                value={password}
-              />
-
-              <TouchableOpacity
-                onPress={togglePasswordVisibility}
-                style={styles.eyeIcon}>
-                <Icon
-                  name={isPasswordVisible ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color="black"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.loginBtn}>
-            <TouchableOpacity onPress={onLinkClick}>
-              <Text style={styles.textStyle}>Login</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-    </MyContext.Consumer>
+    <View style={styles.container}>
+      <Text style={styles.title_text}>Counter App</Text>
+      <Text style={styles.counter_text}> Count:{countValue}</Text>
+      <View style={styles.btnView}>
+        <TouchableOpacity onPress={handleIncreament} style={styles.btn}>
+          <Text style={styles.btn_text}> Increment </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleDecreament}
+          style={{...styles.btn, backgroundColor: '#6e3b3b'}}>
+          <Text style={styles.btn_text}> Decrement </Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity
+        onPress={handleReset}
+        style={{...styles.btn, backgroundColor: 'blue'}}>
+        <Text style={styles.btn_text}> Reset </Text>
+      </TouchableOpacity>
+    </View>
   );
-};
-
-export default Home;
-
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    paddingHorizontal: '3%',
-    backgroundColor: 'yellow',
-    justifyContent: 'center',
-  },
-  input: {
-    height: 55,
-    marginTop: 0,
-    width: '90%',
-    borderWidth: 1,
-    padding: '2%',
-    marginHorizontal: '3%',
-  },
-  passwordInputContainer: {
-    flexDirection: 'row',
+    backgroundColor: '#fff',
     alignItems: 'center',
-    width: '90%',
-    borderWidth: 1,
-    height: 55,
-    marginTop: 0,
-    padding: '1%',
-    marginHorizontal: '3%',
+    // flexDirection: 'column',
+    // padding: 50,
   },
-  passwordInput: {
-    flex: 1,
+  title_text: {
+    fontSize: 40,
+    fontWeight: '900',
+    marginBottom: 45,
   },
-  eyeIcon: {
-    padding: 5,
+  counter_text: {
+    fontSize: 25,
+    fontWeight: '900',
+    margin: 35,
   },
-  loginBtn: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: 'blue',
-    padding: '4%',
-    width: '50%',
-    marginTop: '5%',
+  btnView: {
+    flexDirection: 'row',
+  },
+  btn: {
+    backgroundColor: '#086972',
+    padding: 10,
+    margin: 10,
     borderRadius: 10,
   },
-  textStyle: {
-    alignSelf: 'center',
-    color: 'white',
-  },
-  errorText: {
-    marginTop: '1%',
-    color: 'red',
-    marginHorizontal: '3%',
-  },
-  label: {
-    fontSize: 16,
-    marginTop: '5%',
-    marginHorizontal: '3%',
+  btn_text: {
+    fontSize: 23,
+    color: '#fff',
   },
 });
