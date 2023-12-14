@@ -2,7 +2,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {decrement, increment, reset} from '../redux/slice/counterSlice';
+import {
+  decrementAsync,
+  incrementAsync,
+  resetAsync,
+} from '../redux/actions/countAction';
+// import {decrement, increment, reset} from '../redux/slice/counterSlice';
 
 export default function Home() {
   // const [counter, setCounter] = useState(0);
@@ -18,36 +23,26 @@ export default function Home() {
   //   setCounter(0);
   // };
   const dispatch = useDispatch();
-
-  const countValue = useSelector(store => store.counterReducer.count);
-
-  const handleIncreament = () => {
-    dispatch(increment());
-  };
-
-  const handleDecreament = () => {
-    dispatch(decrement());
-  };
-  const handleReset = () => {
-    dispatch(reset());
-  };
+  const countValue = useSelector(state => state.counterReducer.value);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title_text}>Counter App</Text>
       <Text style={styles.counter_text}> Count:{countValue}</Text>
       <View style={styles.btnView}>
-        <TouchableOpacity onPress={handleIncreament} style={styles.btn}>
+        <TouchableOpacity
+          onPress={() => dispatch(incrementAsync())}
+          style={styles.btn}>
           <Text style={styles.btn_text}> Increment </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleDecreament}
+          onPress={() => dispatch(decrementAsync())}
           style={{...styles.btn, backgroundColor: '#6e3b3b'}}>
           <Text style={styles.btn_text}> Decrement </Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        onPress={handleReset}
+        onPress={() => dispatch(resetAsync())}
         style={{...styles.btn, backgroundColor: 'blue'}}>
         <Text style={styles.btn_text}> Reset </Text>
       </TouchableOpacity>
