@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {increment, decrement, reset} from '../redux/actions/countAction';
+import {decrement, increment, reset} from '../redux/slice/counterSlice';
 
 export default function Home() {
   // const [counter, setCounter] = useState(0);
