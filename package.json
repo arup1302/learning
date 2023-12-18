@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
     "@reduxjs/toolkit": "^2.0.1",
+    "axios": "^1.6.2",
     "react": "18.2.0",
     "react-native": "0.73.0",
     "react-native-gesture-handler": "^2.14.0",
@@ -21,6 +22,7 @@
     "react-native-vector-icons": "^10.0.2",
     "react-redux": "^9.0.4",
     "redux": "^5.0.0",
+    "redux-saga": "^1.2.3",
     "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
