@@ -10,26 +10,21 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 
-// import {fetchContent} from '../redux/slice/counterSlice';
-// import {
-//   decrementAsync,
-//   incrementAsync,
-//   resetAsync,
-// } from '../redux/actions/countAction';
 import {useDispatch} from 'react-redux';
-import {fetchContent} from '../redux/actions/countAction';
+import {fetchUsersRequest} from '../redux/slice/usersSlice';
+
 export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContent());
+    dispatch(fetchUsersRequest());
   }, [dispatch]);
 
-  const countValue = useSelector(state => state.counterReducer.entities);
+  const countValue = useSelector(state => state.users.data || []);
 
-  const loading = useSelector(state => state.counterReducer.loading);
+  const loading = useSelector(state => state?.users?.loading);
   console.log(loading, 'loding........');
-  const error = useSelector(state => state.counterReducer.error);
+  const error = useSelector(state => state.users.error);
   const renderItem = ({item}) => (
     <>
       <View style={styles.container1} key={item.id}>
@@ -45,7 +40,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title_text}>Thunk App</Text>
+      <Text style={styles.title_text}>Saga App</Text>
 
       {loading && (
         <>
