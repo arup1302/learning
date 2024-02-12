@@ -1,14 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const MyContext = () => {
+const VerifyOtp = () => {
   return (
     <View>
-      <Text>MyContext</Text>
+      <Text>VerifyOtp</Text>
     </View>
   );
 };
 
-export default MyContext;
+export default VerifyOtp;
 
 const styles = StyleSheet.create({});

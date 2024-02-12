@@ -5,6 +5,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../screens/Home';
 import Register from '../screens/Register';
 import Login from '../screens/Login';
+import SplashScreen from '../screens/SplashScreen';
+import BottamTabNavigator from './BottamTabNavigator';
+import Categories from '../screens/Categories';
 
 const Stack = createStackNavigator();
 const AppNavigator = () => {
@@ -14,32 +17,26 @@ const AppNavigator = () => {
         <Stack.Screen
           options={{
             headerBackTitleVisible: false,
-            headerStyle: {
-              backgroundColor: 'yellow',
-            },
-
-            headerTitleStyle: {color: 'black'},
+            headerShown: false,
           }}
-          name="Home"
-          component={Home}
+          name="SplashScreen"
+          component={SplashScreen}
         />
         <Stack.Screen
-          // options={{title: 'loginScreen'}}
-          name="Login"
-          component={Login}
           options={{
             headerBackTitleVisible: false,
-            title: 'loginScreen',
-            headerStyle: {
-              backgroundColor: 'yellow',
-            },
-            headerTintColor: 'black',
+            headerShown: false,
           }}
+          name="BottamTabNavigator"
+          component={BottamTabNavigator}
         />
         <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{headerShown: false}}
+          options={{
+            headerBackTitleVisible: false,
+            headerShown: false,
+          }}
+          name="Categories"
+          component={Categories}
         />
       </Stack.Navigator>
     </NavigationContainer>
